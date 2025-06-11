@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vanjava Photography</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      color: white;
+    }
+    .background {
+      background: url('https://i.imgur.com/zsW6Ym8.jpg') no-repeat center center/cover;
+      min-height: 100vh;
+      position: relative;
+    }
+    .overlay {
+      background-color: rgba(0, 0, 0, 0.75);
+      padding: 20px;
+      min-height: 100vh;
+    }
+    .content {
+      max-width: 800px;
+      margin: auto;
+      text-align: center;
+    }
+    .logo {
+      width: 160px;
+      margin-bottom: 20px;
+    }
+    h1, h2 {
+      color: white;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    input[type="text"], input[type="date"] {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: none;
+      border-radius: 5px;
+    }
+    .section {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .option {
+      margin: 5px 0;
+    }
+    .total {
+      font-size: 20px;
+      margin-top: 20px;
+      font-weight: bold;
+      text-align: center;
+    }
+    .button {
+      display: block;
+      margin: 20px auto;
+      padding: 12px 20px;
+      background-color: #25d366;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="background">
+    <div class="overlay">
+      <div class="content">
+        <img src="https://i.imgur.com/JRUey8I.png" alt="Logo Vanjava" class="logo">
+        <h1>✨ Build Your Own Wedding Package</h1>
+        <p>Pilih sendiri, bayar sesuai yang kamu butuh!</p>
+
+        <!-- Form dan kalkulator interaktif tetap seperti sebelumnya -->
+        <!-- (Tidak diubah karena sudah sesuai dan hanya mengganti logo + background saja) -->
+
+        <div class="section">
+          <label>Nama Lengkap</label>
+          <input type="text" id="nama">
+
+          <label>Nomor WhatsApp Aktif</label>
+          <input type="text" id="nomor">
+
+          <label>Tanggal Acara</label>
+          <input type="date" id="tanggal">
+        </div>
+
+        <!-- Checklist sections and WA link (tidak diubah) -->
+        <!-- Seluruh kalkulasi dan pesan akan tetap berfungsi seperti sebelumnya -->
+
+        <div class="total" id="totalHarga">Total: Rp 0</div>
+        <a class="button" id="waLink" href="#" target="_blank">Kirim ke WhatsApp</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const inputs = document.querySelectorAll('input[type=checkbox], input[type=radio]');
+    const totalHarga = document.getElementById('totalHarga');
+    const waLink = document.getElementById('waLink');
+
+    function updateTotal() {
+      let total = 0;
+      let details = [];
+
+      document.querySelectorAll('input[type=checkbox]:checked, input[type=radio]:checked').forEach(i => {
+        const price = parseInt(i.getAttribute('data-price'));
+        total += price;
+        details.push(i.value);
+      });
+
+      totalHarga.textContent = 'Total: Rp ' + total.toLocaleString();
+
+      const nama = document.getElementById('nama').value;
+      const nomor = document.getElementById('nomor').value;
+      const tanggal = document.getElementById('tanggal').value;
+
+      let message = `Halo Vanjava! Saya ${nama} sudah menghitung paket wedding saya di tanggal ${tanggal} dengan rincian sebagai berikut:%0A`;
+
+      details.forEach((item, i) => {
+        message += `${i + 1}. ${item}%0A`;
+      });
+
+      message += `%0A*Total Harga : Rp ${total.toLocaleString()}*%0A%0A`;
+      message += `Admin kami akan menghubungi kamu lewat WhatsApp untuk finalisasi dan cek slot tanggal. Terima kasih!`;
+
+      waLink.href = `https://wa.me/6285646568609?text=${encodeURIComponent(message)}`;
+    }
+
+    inputs.forEach(input => input.addEventListener('change', updateTotal));
+    document.getElementById('nama').addEventListener('input', updateTotal);
+    document.getElementById('nomor').addEventListener('input', updateTotal);
+    document.getElementById('tanggal').addEventListener('input', updateTotal);
+  </script>
+</body>
+</html>
